@@ -1,0 +1,7 @@
+cat_bot_geo_loc:
+    resource: "@CatBotGeoLocBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation

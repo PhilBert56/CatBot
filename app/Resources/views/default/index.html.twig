@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <div id="container">
+            <div id="welcome">
+                <h1><span>BONJOUR CatBot 0 - </span> Symfony {{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION') }}</h1>
+            </div>
+
+            <div id="status">
+                <p>
+                    Your application at: <code>{{ base_dir }}</code>
+                </p>
+            </div>
+
+
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}

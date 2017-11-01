@@ -1,0 +1,3 @@
+cat_bot_geo_loc_homepage:
+    path:     /Map
+    defaults: { _controller: CatBotGeoLocBundle:ShowMap:showMap }
