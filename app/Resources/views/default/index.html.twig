@@ -4,12 +4,12 @@
     <div id="wrapper">
         <div id="container">
             <div id="welcome">
-                <h1><span>BONJOUR CatBot 0 - </span> Symfony {{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION') }}</h1>
+                <h1><span>BONJOUR CatBot sous PhpStorm - </span> Symfony {{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION') }}</h1>
             </div>
 
             <div id="status">
                 <p>
-                    Your application at: <code>{{ base_dir }}</code>
+                    Application at: <code>{{ base_dir }}</code>
                 </p>
             </div>
 
@@ -17,6 +17,8 @@
 
         </div>
     </div>
+
+    <a href="{{ path('map') }}" class="pure-button">Localiser une observation </a>
 {% endblock %}
 
 {% block stylesheets %}

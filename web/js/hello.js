@@ -1,0 +1,1 @@
+alert('Attention, il faut vous localiser en plaçant le curseur au lieu de votre observation!');

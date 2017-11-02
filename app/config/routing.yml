@@ -5,3 +5,16 @@ cat_bot_geo_loc:
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+
+map:
+  resource: '@CatBotGeoLocBundle/Controller/'
+  type: annotation
+
+test:
+  resource: '@CatBotGeoLocBundle/Controller/'
+  type: annotation
+
+post:
+  resource: '@CatBotGeoLocBundle/Controller/'
+  type: annotation
+  methods: POST
