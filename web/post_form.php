@@ -4,5 +4,5 @@ if (empty($_GET)) {
 }
 else {
     $get = print_r($_GET, true);
-    file_put_contents('post_form.log', $get);
+    file_put_contents("http://localhost/CatBot/web/post_form.log", $get);
 }

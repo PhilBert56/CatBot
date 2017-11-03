@@ -1,46 +1,30 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+<body onload="initMap()">
+<h2>LOCALISATION D'UNE OBSERVATION</h2>
+</br>
+    {{ form_start(observationForm ) }}
 
-	<head>
-		<title>Utilisation de Google Maps</title>
+    {{ form_errors(observationForm) }}
 
-		<!--
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    {{ form_widget(observationForm) }}
 
-		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-
-		-->
-
-
-	</head>
-
-  <body onload="initMap()">
-
+    </br>
     <div id="carte" style="width:50%; height:50%"></div>
-	</br>
+    </br>
+	<button type="submit" class ="pure-button">Confirmer la localisation de l'observation</button>
 
-	<form id="localisation" action="{{ path('post') }}" method="post">
-        <input type="submit" value="Confirmer la localisation">
-    </form>
+    {{ form_end(observationForm) }}
 
 
-	{% block javascript %}
-		<script src = "{{ asset('js/hello.js')}}"></script>
+        {% block javascript %}
 
-		<script src="{{ asset('js/ajax.js') }}"></script>
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIqgTXv-Vjr43q72FdWxsflcUnFgQ6KM0&callback=initMap"></script>
 
-		<p> {{ asset('js/ajax.js') }} </p>
-
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIqgTXv-Vjr43q72FdWxsflcUnFgQ6KM0&callback=initMap"
-				type="text/javascript"></script>
-
-		<script type="text/javascript">
+            <script type="text/javascript">
 
             function initMap() {
 
-                var latitude = {{ latitude}};
-                var longitude = {{ longitude }};
-
-                //console.log('latitude = ', latitude, ' longitude = ', longitude);
+                var latitude = {{ observation.latitude}};
+                var longitude = {{ observation.longitude }};
 
                 var latlng = new google.maps.LatLng(latitude,longitude );
 
@@ -54,44 +38,33 @@
 
                 //création du marqueur
                 var marqueur = new google.maps.Marker({
-                    position: new google.maps.LatLng({{latitude}}, {{longitude}}),
+                    position: new google.maps.LatLng({{observation.latitude}}, {{observation.longitude}}),
                     map: carte,
                     draggable: true
                 });
 
-                //marqueur.setDraggable(true);
-
                 google.maps.event.addListener(marqueur, 'dragend', function(event) {
-
-                    //message d'alerte affichant la nouvelle position du marqueur
 
                     latitude = event.latLng.lat();
                     longitude = event.latLng.lng();
                     console.log('latitude = ', latitude, ' longitude = ', longitude);
 
-                    var localisation = new FormData();
-                    localisation.append("latitude", latitude);
-										localisation.append("longitude", longitude);
+                    var latField = document.getElementById('geolocbundle_observation_latitude');
+                    latField.value = latitude;
+                    var lngField = document.getElementById('geolocbundle_observation_longitude');
+                    lngField.value = longitude;
 
-										var url = "http://localhost/javascript-web-srv/post_form.php"
-                    //var url = "{{ path('post') }}";
-                    //var url = "http://localhost/CatBot/web/post_form.php";
+                });
 
-										console.log('appel ajaxPost');
-                    ajaxPost(url,localisation,function (reponse) {
-                        // Affichage dans la console en cas de succès
-                        console.log("Localisation GPS envoyée au serveur");
-                    })
-
-
-				});
             }
 
-		</script>
+        </script>
+
+
+        {% endblock %}>
+
+</body>
 
 
 
-	{% endblock %}>
-  </body>
 
-</html>

@@ -1,0 +1,67 @@
+<body onload="initMap()">
+
+<div id="carte" style="width:50%; height:50%"></div>
+</br>
+
+<form id="localisation" action="{{ path('post') }}" method="post">
+    <input type="submit" value="Confirmer la localisation">
+</form>
+
+</>div>
+
+{% block javascript %}
+    <script src = "{{ asset('js/hello.js')}}"></script>
+
+    <script src="{{ asset('js/ajax.js') }}"></script>
+
+    <p> {{ asset('js/ajax.js') }} </p>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIqgTXv-Vjr43q72FdWxsflcUnFgQ6KM0&callback=initMap"
+            type="text/javascript"></script>
+
+    <script type="text/javascript">
+        function initMap() {
+            var latitude = {{ latitude}};
+            var longitude = {{ longitude }};
+            //console.log('latitude = ', latitude, ' longitude = ', longitude);
+            var latlng = new google.maps.LatLng(latitude,longitude );
+            var options = {
+                center: latlng,
+                zoom: 17,
+                mapTypeId: google.maps.MapTypeId.HYBRID
+            };
+            var carte = new google.maps.Map(document.getElementById("carte"), options);
+            //création du marqueur
+            var marqueur = new google.maps.Marker({
+                position: new google.maps.LatLng({{latitude}}, {{longitude}}),
+                map: carte,
+                draggable: true
+            });
+            //marqueur.setDraggable(true);
+            google.maps.event.addListener(marqueur, 'dragend', function(event) {
+                //message d'alerte affichant la nouvelle position du marqueur
+                latitude = event.latLng.lat();
+                longitude = event.latLng.lng();
+                console.log('latitude = ', latitude, ' longitude = ', longitude);
+                var localisation = new FormData();
+                localisation.append("latitude", latitude);
+                localisation.append("longitude", longitude);
+                var url = "http://localhost/javascript-web-srv/post_form.php"
+                //var url = "{{ path('post') }}";
+                //var url = "http://localhost/CatBot/web/post_form.php";
+                console.log('appel ajaxPost');
+                ajaxPost(url,localisation,function (reponse) {
+                    // Affichage dans la console en cas de succès
+                    console.log("Localisation GPS envoyée au serveur");
+                })
+            });
+        }
+    </script>
+{% endblock %}>
+    </body>
+
+
+
+
+
+

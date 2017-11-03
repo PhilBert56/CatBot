@@ -1,0 +1,132 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+
+	<head>
+		<title>Utilisation de Google Maps</title>
+
+
+
+
+	</head>
+    {% extends 'base.html.twig' %}
+
+    {% block body %}
+
+    {{ form_start(observationForm ) }}
+
+    {{ form_errors(observationForm) }}
+
+
+
+    {{ form_widget(observationForm) }}
+
+  	<body onload="initMap()">
+
+    <div id="carte" style="width:50%; height:50%"></div>
+	</br>
+
+
+	<button type="submit" class ="pure-button">{{'observation.confirm'}}</button>
+
+    {{ form_end(visitorForm) }}
+
+	{% block javascript %}
+		<script src = "{{ asset('js/hello.js')}}"></script>
+
+		<script src="{{ asset('js/ajax.js') }}"></script>
+
+		<p> {{ asset('js/ajax.js') }} </p>
+
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIqgTXv-Vjr43q72FdWxsflcUnFgQ6KM0&callback=initMap"
+				type="text/javascript"></script>
+
+		<script type="text/javascript">
+
+            function initMap() {
+
+                var latitude = {{ latitude}};
+                var longitude = {{ longitude }};
+
+                var latlng = new google.maps.LatLng(latitude,longitude );
+
+                var options = {
+                    center: latlng,
+                    zoom: 17,
+                    mapTypeId: google.maps.MapTypeId.HYBRID
+                };
+
+                var carte = new google.maps.Map(document.getElementById("carte"), options);
+
+                //création du marqueur
+                var marqueur = new google.maps.Marker({
+                    position: new google.maps.LatLng({{latitude}}, {{longitude}}),
+                    map: carte,
+                    draggable: true
+                });
+
+                //marqueur.setDraggable(true);
+
+                google.maps.event.addListener(marqueur, 'dragend', function(event) {
+
+                    //message d'alerte affichant la nouvelle position du marqueur
+
+                    latitude = event.latLng.lat();
+                    longitude = event.latLng.lng();
+                    console.log('latitude = ', latitude, ' longitude = ', longitude);
+
+                    var localisation = new FormData();
+                    localisation.append("latitude", latitude);
+										localisation.append("longitude", longitude);
+
+										//var url = "http://localhost/javascript-web-srv/post_form.php"
+                    //var url = "{{ path('post') }}";
+                    var url = "http://localhost/CatBot/web/post_form.php";
+
+										console.log('appel ajax');
+										/*
+                    ajaxPost(url,localisation,function (reponse) {
+                        // Affichage dans la console en cas de succès
+                        console.log("Localisation GPS envoyée au serveur");
+                    })*/
+										var callback = function (reponse) {
+                        // Affichage dans la console en cas de succès
+                        console.log("Localisation GPS envoyée au serveur");
+                    };
+
+/*
+										var req = new XMLHttpRequest();
+    								req.open("POST", url);
+    								req.addEventListener("load", function () {
+        						if (req.status >= 200 && req.status < 400) {
+            				// Appelle la fonction callback en lui passant la réponse de la requête
+            						callback(req.responseText);
+        							} else {
+            						console.error(req.status + " " + req.statusText + " " + url);
+        							}
+    									}
+										);
+    								req.addEventListener("error", function () {
+        						console.error("Erreur réseau avec l'URL " + url);
+    								});
+
+    								req.send(localisation);
+*/
+									ajaxPost(url,localisation,callback);
+							});
+
+
+            }
+
+		</script>
+
+
+
+    {% endblock %}>
+
+
+
+
+  </body>
+
+
+
+</html>

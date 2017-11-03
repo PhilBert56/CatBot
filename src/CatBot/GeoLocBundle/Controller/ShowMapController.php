@@ -19,7 +19,7 @@ class ShowMapController extends Controller
         $latitude = 43.070955;
         $longitude = - 0.06446;
 
-        return $this->render('CatBotGeoLocBundle:Maps:map.html.twig',[
+        return $this->render('CatBotGeoLocBundle:Maps:map0.html.twig',[
           'latitude'=>$latitude,
           'longitude'=>$longitude
 

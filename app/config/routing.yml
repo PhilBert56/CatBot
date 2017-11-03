@@ -18,3 +18,7 @@ post:
   resource: '@CatBotGeoLocBundle/Controller/'
   type: annotation
   methods: POST
+
+observation:
+  resource: '@CatBotGeoLocBundle/Controller/'
+  type: annotation
